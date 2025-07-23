@@ -39,16 +39,16 @@
 <table>
 <tr>
 <td align="center">
-<img src="images/web1.png" width="500" alt="Bekleme Durumu"/>
-<br/><b>Ana Dashboard - Çoklu Kat Görünümü</b>
+<img src="images/web1.png" width="600" alt="Bekleme Durumu"/>
+<br/><b>Bekleme Durumu</b>
 </td>
 <td align="center">
-<img src="images/web2.png" width="500" alt="Demleme Süreci"/>
-<br/><b>Aktif Demleme Durumu</b>
+<img src="images/web2.png" width="600" alt="Demleme Süreci"/>
+<br/><b>Demleme Süreci</b>
 </td>
 <td align="center">
-<img src="images/web3.png" width="500" alt="Tazelik Takibi"/>
-<br/><b>Farklı Katlar - Farklı Durumlar</b>
+<img src="images/web3.png" width="600" alt="Tazelik Takibi"/>
+<br/><b>Tazelik Takib</b>
 </td>
 </tr>
 </table>
