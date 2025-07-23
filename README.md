@@ -1,30 +1,34 @@
 # IoT Tea Tracking System (Çay Takip Sistemi)
 
-Çayın **demleme süresini (20 dk)** ve **tazelik süresini (120 dk)** takip eden; 3 katlı yapıya sahip, OLED ekranlı ve IoT özellikli bir sistem.
+Çayın **demleme süresini (20 dk)** ve **tazelik süresini (120 dk)** takip eden;  
+1 adet **Mother (ESP8266)** ve birden fazla **Floor (ESP32-PICO-D4)** modülünden oluşan IoT sistemi.
+
+---
+
+## Mimari
+
+- **Mother (ESP8266)**  
+  - Kat modüllerinden gelen verileri toplar.  
+  - Zamanlayıcıları ve durum değişimlerini yönetir.  
+  - Ağ üzerinden (Wi‑Fi / MQTT / HTTP …) dış dünyaya veri/servis sağlar.  
+- **Floor (ESP32-PICO-D4)**  
+  - Her katta çay demleme ve tazelik durumunu izler.  
+  - Mother’a periyodik olarak veya olay bazlı (demleme başlatıldı/bitti vb.) veri gönderir.
+
+> Sistem 3 katlıdır (F1, F2, F3). Değişkense README’de belirt.
+
+---
 
 ## Özellikler
-- Demleme başlatma ve geri sayım
-- Tazelik süresi takibi, uyarılar
-- Wi-Fi/Bluetooth üzerinden durum görüntüleme (varsa ekle)
-- Kat bazında durum raporu (3 kat)
-- Loglama / veri paylaşımı (varsa)
 
-## Donanım
-- MCU: (STM32/ESP32/…)
-- Sensörler / Ekran: (OLED I2C, buton pinleri, vb.)
-- Bağlantı: (Wi-Fi, BLE, Ethernet…)
+- Demleme süresi: **20 dakika** geri sayım  
+- Tazelik süresi: **120 dakika** geri sayım  
+- Süre bitiminde uyarı / status değişimi  
+- Kat bazında ayrı sayaçlar  
+- Ağ üzerinden durum izleme (dashboard / log / API) *(varsa belirt)*  
+- Reset / yeniden yapılandırma akışları
 
-## Yazılım
-- Dil / Framework: (C, C++, Arduino, FreeRTOS, Python backend vs.)
-- Ana modüller:
-  - `src/` – kaynak kodlar
-  - `include/` – header dosyaları
-  - `hardware/` – şema, PCB, BOM
-  - `docs/` – dokümantasyon, diyagramlar
-  - `examples/` – örnek kullanım
+---
 
-## Kurulum
-```bash
-git clone https://github.com/SelcukluOsman/iot-tea-tracking-system.git
-cd iot-tea-tracking-system
-# Gerekli bağımlılıkları kur, derle, vs.
+## Proje Yapısı
+
