@@ -289,7 +289,6 @@ const unsigned long HB_INTERVAL_MS = 60000UL;       // 60s heartbeat
 ## 🎨 Arayüz Özellikleri
 
 ### Renk Kodları
-- **🔴 Kırmızı**: Kritik durum / Çay bozulma riski
 - **🟠 Turuncu**: Aktif demleme süreci
 - **🟢 Yeşil**: Hazır durum / Optimal tüketim zamanı
 - **🔵 Mavi**: Bekleme / Tazelik takibi
@@ -306,9 +305,9 @@ const unsigned long HB_INTERVAL_MS = 60000UL;       // 60s heartbeat
 ## 📊 Performans ve Verimlilik
 
 ### Sistem Metrikleri
-- **Response Time**: < 100ms (local network)
+- **Response Time**: < 180ms (local network)
 - **Heartbeat Interval**: 60 saniye (Floor → Mother)
-- **Offline Detection**: 100 saniye timeout
+- **Offline Detection**: 180 saniye timeout
 - **Battery Life**: ESP32 için 2-4 hafta (400mAh batarya)
 - **Deep Sleep Current**: < 10µA (ultra low power mode)
 - **Active Current**: ~80mA (WiFi aktif, 2 saniye)
