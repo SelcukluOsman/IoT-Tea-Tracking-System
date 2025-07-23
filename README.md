@@ -351,10 +351,8 @@ This project is developed by **OSS EMBEDDED SYSTEM**.
 
 ## 📞 Contact
 
-**Developer**: Osman Selçuklu  
-**GitHub**: [@SelcukluOsman](https://github.com/SelcukluOsman)  
-**Project**: [IoT-Tea-Tracking-System](https://github.com/SelcukluOsman/IoT-Tea-Tracking-System)
-**Linkedin**: [@SelcukSELCUKLU](https://www.linkedin.com/in/selcukselcuklu/) 
+**Developer**: Osman Selçuklu 
+**Linkedin**: [@SelcukSELCUKLU](https://www.linkedin.com/in/selcukselcuklu/)  
 
 ---
 
