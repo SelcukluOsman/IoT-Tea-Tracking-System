@@ -1,5 +1,5 @@
 <div align="center">
-# 🫖 IoT Tea Tracking System 🫖 
+🫖 IoT Tea Tracking System 🫖 
 
 <div align="center">
 
