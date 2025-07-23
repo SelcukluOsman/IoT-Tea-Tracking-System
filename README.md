@@ -39,17 +39,17 @@
 <table>
 <tr>
 <td align="center">
-<img src="images/web1.png" width="300" alt="Ana Dashboard"/>
+<img src="images/web1.png" width="300" alt="Bekleme Durumu"/>
 <br/><b>Ana Dashboard - Çoklu Kat Görünümü</b>
 </td>
 <td align="center">
-<img src="images/web-demo-4.jpg" width="300" alt="Aktif Demleme"/>
+<img src="images/web2.png" width="300" alt="Demleme Süreci"/>
 <br/><b>Aktif Demleme Durumu</b>
 </td>
 </tr>
 <tr>
 <td align="center">
-<img src="images/web2.png" width="300" alt="Karma Durum"/>
+<img src="images/web3.png" width="300" alt="Tazelik Takibi"/>
 <br/><b>Farklı Katlar - Farklı Durumlar</b>
 </td>
 </tr>
