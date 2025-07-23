@@ -109,8 +109,6 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 
 ---
 
----
-
 ## 🚀 Çalışma Prensibi
 
 ### 1. **Başlatma Süreci**
