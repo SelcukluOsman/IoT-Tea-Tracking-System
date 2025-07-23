@@ -56,6 +56,37 @@
 
 ---
 
+## 📁 Dosya Yapısı
+
+Bu proje aşağıdaki dosya yapısına sahiptir:
+
+```
+IoT-Tea-Tracking-System/
+├── 📁 images/                     # Demo görüntüleri ve UI screenshots
+│   ├── mobile-demo-1.jpg
+│   ├── Phone-NoConnect.png
+│   ├── Phone-Brewing.png
+│   ├── Phone-ReadyforDrink.png
+│   ├── web1.png
+│   ├── web2.png
+│   └── web3.png
+│
+├── 📁 docs/                       # Dokümantasyon ve kod dosyaları
+│   ├── M-ESP8266.ino             # Mother modül kodu (Ana sunucu)
+│   ├── F-ESP32-PICO-D4.ino       # Floor modül kodu (Buton modülleri)
+│   └── system-architecture.md     # Sistem mimarisi detayları
+│
+├── 📁 video/                      # Demo videoları
+│   └── video/                     # Sistem çalışma videoları
+│       └── system-demo.mp4        # Tam sistem demo videosu
+│
+├── 📄 README.md                   # Bu dosya
+├── 📄 LICENSE                     # Lisans bilgileri
+└── 📄 CHANGELOG.md               # Versiyon geçmişi
+```
+
+---
+
 ## 🏗️ Sistem Mimarisi
 
 Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** modülünden oluşan dağıtık IoT sistemidir.
@@ -69,6 +100,14 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 - **Overshoot Protection**: Gecikmiş sorgularda süre kaybı önleme
 - **Connection Quality**: RSSI tabanlı sinyal kalitesi hesaplama
 
+#### 📂 Mother Modül Kod Dosyası: `docs/M-ESP8266.ino`
+```cpp
+// ESP8266 Mother Modül - Ana Sunucu
+// Network: Static IP 10.0.0.77
+// Ports: HTTP:80, mDNS:tea-system.local
+// Features: Web Dashboard, Timer Management, Buzzer Control
+```
+
 ### 📍 Floor Modülleri (ESP32-PICO-D4)
 - **Ultra Low Power Design**: 400mAh batarya ile 2-4 hafta kullanım
 - **Deep Sleep Optimization**: 55 saniye uyku, 5 saniye aktif döngü  
@@ -77,6 +116,31 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 - **Minimal Network Usage**: Sadece buton basımı ve heartbeat gönderimi
 - **Battery Management**: Ultra düşük güç tüketimi (80MHz CPU)
 - **Quick Response**: 2 saniye WiFi timeout ile hızlı bağlantı
+
+#### 📂 Floor Modül Kod Dosyası: `docs/F-ESP32-PICO-D4.ino`
+```cpp
+// ESP32-PICO-D4 Floor Modül - Buton Kontrol
+// Power: 400mAh Battery, Deep Sleep Mode
+// Network: WiFi Client → Mother 10.0.0.77
+// Features: Button Detection, NeoPixel Status, Ultra Low Power
+```
+
+---
+
+## 🎬 Video Demonstrasyon
+
+### 📹 Sistem Çalışma Videosu
+Projenin tam çalışma videosunu `video/video/` klasöründe bulabilirsiniz. Video şunları göstermektedir:
+
+- **System Architecture**: Mother-Floor modül iletişimi
+- **Web Dashboard**: Gerçek zamanlı durum takibi
+- **Mobile Interface**: Responsive tasarım özellikleri
+- **Button Interaction**: Floor modüllerinden çay başlatma
+- **Timer Management**: Demleme ve tazelik süreçleri
+- **Status Indicators**: LED ve buzzer geri bildirimleri
+- **Power Management**: Deep sleep ve batarya optimizasyonu
+
+> 💡 **Not**: Video dosyası sistem mimarisini ve akış şemasını net bir şekilde göstermektedir. Flow chart'lara gerek kalmadan tüm sistem davranışını anlayabilirsiniz.
 
 ---
 
@@ -111,6 +175,25 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 
 ## 🚀 Çalışma Prensibi
 
+### 🔄 Sistem Akışı
+1. **Floor modülleri** deep sleep modunda bekler (55s uyku)
+2. **Buton basımı** ile ESP32 uyanır ve Mother'a istek gönderir
+3. **Mother modül** timer başlatır ve buzzer çalar
+4. **Web dashboard** gerçek zamanlı süreyi gösterir
+5. **20 dakika** sonra demleme tamamlanır (hazır melodisi)
+6. **120 dakika** tazelik takibi başlar
+7. **Heartbeat sinyalleri** ile bağlantı kontrolü yapılır
+
+### 📊 Durum Matrisi
+| Durum | Renk | Süre | Açıklama |
+|-------|------|------|----------|
+| **Standby** | ⚫ Gri | - | Bekleme durumu |
+| **Brewing** | 🟠 Turuncu | 20dk | Aktif demleme |
+| **Ready** | 🟢 Yeşil | - | Tüketim zamanı |
+| **Fresh** | 🔵 Mavi | 120dk | Tazelik takibi |
+| **Expired** | 🔴 Kırmızı | - | Tazelik süresi bitti |
+
+---
 
 ## 🎯 Kullanım Senaryoları
 
@@ -183,13 +266,14 @@ Floor ESP32-PICO-D4:
 ### 2. Software Yükleme
 ```bash
 # Arduino IDE'de gerekli kütüphaneleri yükleyin
-# docs/ klasöründeki kodu ilgili modüllere yükleyin
+# docs/M-ESP8266.ino dosyasını Mother modüle yükleyin
+# docs/F-ESP32-PICO-D4.ino dosyasını Floor modüllerine yükleyin
 # WiFi credentials ve IP ayarlarını yapılandırın
 ```
 
 ### 3. Network Ayarları
 ```cpp
-// Mother modül için (M-ESP8266.ino)
+// Mother modül için (docs/M-ESP8266.ino)
 const char* SSID = "YOUR_WIFI_SSID";
 const char* PASSWORD = "YOUR_WIFI_PASSWORD";
 
@@ -202,11 +286,11 @@ IPAddress dns     (8,8,8,8);         // DNS server
 // Zamanlayıcı Ayarları
 const unsigned long PREP_MS = 20UL * 60UL * 1000UL;    // 20 dakika
 const unsigned long EXPIRE_MS = 120UL * 60UL * 1000UL; // 120 dakika
-const unsigned long HEARTBEAT_TIMEOUT = 100000UL;      // 100 saniye
+const unsigned long HEARTBEAT_TIMEOUT = 180000UL;      // 180 saniye
 
-// Floor modülleri için (F-ESP32-PICO-D4.ino)
+// Floor modülleri için (docs/F-ESP32-PICO-D4.ino)
 const char* WIFI_SSID = "YOUR_WIFI_SSID";
-const char* WIFI_PASS = "YOUR_WIFI_PASSWORD.";
+const char* WIFI_PASS = "YOUR_WIFI_PASSWORD";
 const char* MAIN_HOST = "10.0.0.77";
 const uint16_t MAIN_PORT = 80;
 #define FLOOR_ID 3  // Her kat için farklı ID
@@ -290,6 +374,12 @@ Bu proje açık kaynak ruhuyla geliştirilmektedir. Katkılarınızı bekliyoruz
 3. **Commit** edin (`git commit -m 'Add some AmazingFeature'`)
 4. **Push** edin (`git push origin feature/AmazingFeature`)
 5. **Pull Request** açın
+
+### 📂 Kod Yapısı
+- **docs/M-ESP8266.ino**: Mother modül ana kodu
+- **docs/F-ESP32-PICO-D4.ino**: Floor modül kodu
+- **video/video/**: Sistem demo videoları
+- **images/**: UI screenshots ve demo görselleri
 
 ---
 
