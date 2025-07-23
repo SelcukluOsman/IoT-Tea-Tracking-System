@@ -19,15 +19,15 @@
 <table>
 <tr>
 <td align="center">
-<img src="images/Phone-NoConnect.png" width="200" alt="Bekleme Durumu"/>
+<img src="images/mobile-demo-1.jpg" width="200" alt="Bekleme Durumu"/>
 <br/><b>Bekleme Durumu</b>
 </td>
 <td align="center">
-<img src="images/Phone-Brewing.png" width="200" alt="Demleme Süreci"/>
+<img src="images/mobile-demo-3.jpg" width="200" alt="Demleme Süreci"/>
 <br/><b>Demleme Süreci</b>
 </td>
 <td align="center">
-<img src="images/Phone-ReadyforDrink.png" width="200" alt="Tazelik Takibi"/>
+<img src="images/mobile-demo-5.jpg" width="200" alt="Tazelik Takibi"/>
 <br/><b>Tazelik Takibi</b>
 </td>
 </tr>
@@ -53,25 +53,30 @@
 </tr>
 </table>
 </div>
----
 
+---
 
 ## 🏗️ Sistem Mimarisi
 
 Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** modülünden oluşan dağıtık IoT sistemidir.
 
 ### 🧠 Mother Modül (ESP8266)
-- **Merkezi Koordinatör**: Tüm kat modüllerinden gelen verileri toplar
-- **Web Server**: Local network üzerinde dashboard servisi (örn: `10.0.0.77`)
-- **Timer Yönetimi**: Demleme (20dk) ve tazelik (120dk) sayaçlarını yönetir
-- **Sesli Geri Bildirim**: Buzzer ile demleme durumu bildirimleri
-- **Real-time Updates**: Anlık durum güncellemeleri
+- **Sabit IP Server**: `http://10.0.0.77` üzerinde web dashboard servisi
+- **Real-time Heartbeat**: 1Hz ile kat modüllerinin durumunu izler
+- **Smart Timer Management**: 20dk demleme → 120dk tazelik otomatik geçişi
+- **Advanced Buzzer System**: Başlangıç ve hazır melodileri (GPIO13)
+- **Live Status LED**: Server durumu için GPIO4 LED yanıp sönme
+- **Overshoot Protection**: Gecikmiş sorgularda süre kaybı önleme
+- **Connection Quality**: RSSI tabanlı sinyal kalitesi hesaplama
 
 ### 📍 Floor Modülleri (ESP32-PICO-D4)
-- **Fiziksel Etkileşim**: Her katta bulunan başlatma butonları
-- **Event-Based Communication**: Mother'a olay bazlı veri gönderimi
-- **Heartbeat Monitoring**: Düzenli sistem sağlık kontrolleri
-- **Distributed Processing**: Her kat için bağımsız işlem kapasitesi
+- **Ultra Low Power Design**: 400mAh batarya ile 2-4 hafta kullanım
+- **Deep Sleep Optimization**: 55 saniye uyku, 5 saniye aktif döngü  
+- **Smart Button Detection**: GPIO25 ile hassas buton algılama
+- **NeoPixel Feedback**: Tek LED ile renkli durum bildirimi
+- **Minimal Network Usage**: Sadece buton basımı ve heartbeat gönderimi
+- **Battery Management**: Ultra düşük güç tüketimi (80MHz CPU)
+- **Quick Response**: 2 saniye WiFi timeout ile hızlı bağlantı
 
 ---
 
@@ -83,11 +88,18 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 - **Visual Progress**: Gerçek zamanlı ilerleme çubukları
 - **Multi-Status**: Her kat için ayrı durum yönetimi
 
-### 🔔 Akıllı Bildirimler
-- **Başlangıç Sinyali**: Demleme başladığında sesli uyarı
-- **Tamamlanma Bildirimi**: Çay hazır olduğunda otomatik uyarı
-- **Tazelik Uyarısı**: Çayın bozulma süresine yaklaşırken bildirim
-- **Sistem Durumu**: Real-time web arayüzü güncellemeleri
+### 🔊 Gelişmiş Buzzer Sistemi
+- **Başlangıç Jingle**: C → E → G (523→659→784 Hz) yükselen mutlu melodi
+- **Hazır Melodisi**: G → E → C → C8 (784→659→523→1046 Hz) kutlama jingle'ı
+- **Smart Timing**: Ton aralarında sessizlik ile net müzik efekti
+- **Non-blocking**: Buzzer çalarken sistem diğer işlevleri sürdürür
+
+### 📡 Network API Endpoints
+- **`/start`** veya **`/request`**: Çay demleme başlatma
+- **`/heartbeat`**: Kat modüllerinden yaşam sinyali
+- **`/connect`**: Yeni kat modülü bağlantısı
+- **`/status`**: JSON formatında tüm katların durumu
+- **`/info`**: Sistem bilgileri ve istatistikler
 
 ### 🌐 Web Arayüzü
 - **Responsive Design**: Mobil ve desktop uyumlu
@@ -96,6 +108,23 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 - **Status Indicators**: Renk kodlu durum göstergeleri
 
 ---
+
+## 📂 Proje Yapısı
+
+```
+IoT-Tea-Tracking-System/
+├── docs/
+│   ├── F-ESP32-PICO-D4.ino    # Floor modül kodu
+│   └── M-ESP8266.ino          # Mother modül kodu
+├── images/
+│   ├── mobile-demo-1.jpg      # Mobil arayüz - Bekleme
+│   ├── mobile-demo-3.jpg      # Mobil arayüz - Demleme
+│   ├── mobile-demo-5.jpg      # Mobil arayüz - Tazelik
+│   ├── web-demo-2.jpg         # Web dashboard - Ana görünüm
+│   ├── web-demo-4.jpg         # Web dashboard - Aktif durum
+│   └── web-demo-6.jpg         # Web dashboard - Karma durum
+└── README.md
+```
 
 ---
 
@@ -116,17 +145,57 @@ sequenceDiagram
     Mother_ESP8266->>Mother_ESP8266: Buzzer aktif (bip bip)
 ```
 
-### 2. **Durum Yönetimi**
-- **🔘 BAĞLI DEĞİL**: Sistem bekleme modunda
-- **🟠 ÇAY DEMLENİYOR**: 20 dakika geri sayım aktif
-- **🔵 BEKLENİYOR**: Demleme tamamlandı, tüketim bekleniyor  
-- **🟢 ÇAY İÇİLMEYE HAZIR**: Tazelik süresi takip ediliyor
+### 2. **Durum Yönetimi ve Timer Sistemi**
+```mermaid
+stateDiagram-v2
+    [*] --> Waiting: System Start
+    Waiting --> Preparing: Button Press (/start)
+    Preparing --> Ready: 20min Timer Complete
+    Ready --> Expired: 120min Timer Complete
+    Expired --> Waiting: Auto Reset
+    Preparing --> Expired: Overshoot Protection
+    
+    note right of Preparing : 🔊 Start Jingle (C→E→G)
+    note right of Ready : 🔊 Ready Melody (G→E→C→C8)
+```
 
-### 3. **Network İletişimi**
-- **Local Web Server**: Mother ESP8266 üzerinde
-- **HTTP API**: Floor modüllerinden POST istekleri
-- **Real-time Updates**: WebSocket ile anlık güncelleme
-- **Cross-Platform**: Tüm cihazlardan erişilebilir
+**Durum Kodları:**
+- **🔘 waiting**: Sistem bekleme modunda, çay yok
+- **🟠 preparing**: 20 dakika demleme süreci aktif
+- **🟢 ready**: Çay hazır, 120 dakika tazelik takibi  
+- **⚫ expired**: Süre doldu, yeni demleme bekliyor
+
+### 3. **Network İletişimi ve Heartbeat Sistemi**
+```mermaid
+sequenceDiagram
+    participant Floor as Floor ESP32
+    participant Mother as Mother ESP8266
+    participant User as Web User
+    
+    Floor->>Mother: /connect (Boot)
+    Mother-->>Floor: OK
+    
+    loop Every 60s
+        Floor->>Mother: /heartbeat + RSSI
+        Mother-->>Floor: OK
+    end
+    
+    Floor->>Mother: /start (Button Press)
+    Mother->>Mother: Start 20min Timer
+    Mother->>Mother: Play Start Jingle
+    Mother-->>Floor: OK
+    
+    Mother->>Mother: Timer: 20min → Ready State
+    Mother->>Mother: Play Ready Melody
+    
+    User->>Mother: /status (Web Poll)
+    Mother-->>User: JSON Status + Remaining Time
+```
+
+**Heartbeat Monitoring:**
+- **100 saniye timeout**: Kat modülü offline algılaması
+- **Connection Quality**: RSSI tabanlı sinyal kalitesi (-90 ila -30 dBm)
+- **Overshoot Protection**: Gecikmiş timer güncellemelerinde süre kaybı önleme
 
 ---
 
@@ -154,16 +223,23 @@ sequenceDiagram
 ### Hardware Gereksinimleri
 - **1x ESP8266** (Mother modül için)
 - **Nx ESP32-PICO-D4** (Floor modülleri için)
-- **Butonlar** (Her kat için başlatma butonu)
-- **Buzzer** (Mother modülde ses çıkışı için)
-- **Power Supply** (Modüller için güç kaynağı)
+- **Butonlar** (GPIO25 - Her kat için başlatma butonu)
+- **NeoPixel LED** (GPIO4 - Görsel geri bildirim için)
+- **Buzzer** (Mother modülde ses çıkışı için)  
+- **400mAh Battery** (Floor modülleri için taşınabilir güç)
+- **Power Supply** (Mother modül için sabit güç kaynağı)
 
 ### Software Stack
 - **Arduino IDE** ile geliştirme
-- **ESP8266WiFi** kütüphanesi
-- **WebServer** kütüphanesi  
-- **HTTP Client** iletişimi
-- **Custom Timer** implementasyonu
+- **ESP8266WiFi** kütüphanesi (Mother)
+- **ESP8266WebServer** kütüphanesi (HTTP server)
+- **ESP8266mDNS** kütüphanesi (domain çözümleme)
+- **WiFi.h** kütüphanesi (Floor ESP32)
+- **HTTPClient** kütüphanesi (HTTP iletişimi)
+- **Adafruit_NeoPixel** (LED kontrol)
+- **esp_sleep.h** (Ultra low power deep sleep)
+- **tone()** fonksiyonu (Buzzer melodileri)
+- **Custom Timer & State Machine** implementasyonu
 
 ### Network Konfigürasyonu
 - **WiFi Bağlantısı**: Tüm modüller aynı network
@@ -178,14 +254,17 @@ sequenceDiagram
 ### 1. Hardware Bağlantıları
 ```
 Mother ESP8266:
-├── Buzzer → Digital Pin
+├── Buzzer → GPIO13 (Start/Ready Jingle'lar)
+├── Live LED → GPIO4 (Server Status - LOW=ON)
 ├── WiFi Anteni
 └── Power Input (5V/3.3V)
 
 Floor ESP32-PICO-D4:
-├── Başlatma Butonu → Digital Pin
+├── Başlatma Butonu → GPIO25 (Pull-down)
+├── NeoPixel LED → GPIO4 (Data)
+├── NeoPixel Enable → GPIO5 (Power Control)
 ├── WiFi Anteni  
-└── Power Input (5V/3.3V)
+└── 400mAh Battery Input
 ```
 
 ### 2. Software Yükleme
@@ -195,38 +274,35 @@ Floor ESP32-PICO-D4:
 # WiFi credentials ve IP ayarlarını yapılandırın
 ```
 
-### 3. Network ve Kat Ayarları
+### 3. Network Ayarları
 ```cpp
-// Ana modül için
+// Mother modül için (M-ESP8266.ino)
+const char* SSID = "Stoper";
+const char* PASSWORD = "Stoper123.";
 
-// ——— Ağ Ayarları ———
-const char* SSID     = "YOUR_WIFI_SSID";
-const char* PASSWORD = "YOUR_WIFI_PASSWORD";
+// Sabit IP Konfigürasyonu
+IPAddress local_IP(10,0,0,77);       // Ana server IP
+IPAddress gateway (10,0,0,1);        // Router IP
+IPAddress subnet  (255,255,255,0);   // Subnet mask
+IPAddress dns     (8,8,8,8);         // DNS server
 
-IPAddress local_IP(10,0,0,77);          
-IPAddress gateway (10,0,0,1);           //IPAddress gateway (192, 168, 1, 1);        // ağ geçidi (router)
-IPAddress subnet  (255, 255, 255, 0);  
-IPAddress dns     (8, 8, 8, 8);
-     
-// ——— Web Sunucu ———
-ESP8266WebServer server(80);
+// Zamanlayıcı Ayarları
+const unsigned long PREP_MS = 20UL * 60UL * 1000UL;    // 20 dakika
+const unsigned long EXPIRE_MS = 120UL * 60UL * 1000UL; // 120 dakika
+const unsigned long HEARTBEAT_TIMEOUT = 100000UL;      // 100 saniye
 
-// mDNS
-MDNS.begin("tea-system");
-MDNS.addService("http","tcp",80);
-
-------------------------------------------------------------
-
-// Floor modülleri için
-// ----- Kullanıcı Ayarları -----
-const char* WIFI_SSID   = "YOUR_WIFI_SSID";
-const char* WIFI_PASS   = "YOUR_WIFI_PASSWORD";
-const char* MAIN_HOST   = "10.0.0.77";
+// Floor modülleri için (F-ESP32-PICO-D4.ino)
+const char* WIFI_SSID = "Stoper";
+const char* WIFI_PASS = "Stoper123.";
+const char* MAIN_HOST = "10.0.0.77";
 const uint16_t MAIN_PORT = 80;
+#define FLOOR_ID 3  // Her kat için farklı ID
 
-// Kat ID (her kartta değiştir!)
-#define FLOOR_ID 3
+// Ultra Low Power Ayarları
+const unsigned long SLEEP_DURATION_US = 55000000UL; // 55s uyku
+const unsigned long HB_INTERVAL_MS = 60000UL;       // 60s heartbeat
 ```
+
 ---
 
 ## 🎨 Arayüz Özellikleri
@@ -250,14 +326,27 @@ const uint16_t MAIN_PORT = 80;
 
 ### Sistem Metrikleri
 - **Response Time**: < 100ms (local network)
-- **Battery Life**: ESP32 için 8+ saat (deep sleep ile)
+- **Heartbeat Interval**: 60 saniye (Floor → Mother)
+- **Offline Detection**: 100 saniye timeout
+- **Battery Life**: ESP32 için 2-4 hafta (400mAh batarya)
+- **Deep Sleep Current**: < 10µA (ultra low power mode)
+- **Active Current**: ~80mA (WiFi aktif, 2 saniye)
 - **Concurrent Users**: 10+ eş zamanlı kullanıcı
-- **Uptime**: 99.9% güvenilirlik
+- **System Uptime**: 99.9+ güvenilirlik
+- **mDNS Support**: `tea-system.local` domain çözümleme
 
-### Enerji Optimizasyonu
-- **WiFi Power Management**: Akıllı güç tasarrufu
-- **Deep Sleep**: Floor modüllerde bekleme modu
-- **Efficient Timers**: CPU yükünü minimize eden algoritmalar
+### 🔋 Ultra Low Power Özellikleri
+- **Deep Sleep Mode**: 55 saniye uyku, 5 saniye aktif
+- **Batarya Ömrü**: 400mAh ile 2-4 hafta kesintisiz çalışma
+- **Smart Wake-up**: Buton basımı veya timer ile uyanma
+- **Power Management**: Bluetooth kapalı, 80MHz CPU frekansı
+- **Minimal Network**: 8 saniye WiFi timeout, maksimum güç tasarrufu
+
+### 💡 NeoPixel LED Geri Bildirimleri
+- **🟢 Yeşil**: Başarılı buton basımı ve server iletişimi
+- **🔴 Kırmızı**: Bağlantı hatası veya server yanıtı yok
+- **🔵 Turkuaz**: Hızlı buton onayı (network öncesi)
+- **⚫ Kapalı**: Enerji tasarrufu için varsayılan durum
 
 ---
 
