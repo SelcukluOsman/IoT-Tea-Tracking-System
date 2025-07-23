@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![Tea Tracking System Logo](images/mobile-demo-1.jpg)
-
 **Smart IoT system that monitors tea brewing and freshness times**
 
 [![ESP8266](https://img.shields.io/badge/ESP8266-Mother-blue)](https://github.com/SelcukluOsman/IoT-Tea-Tracking-System)
@@ -11,8 +9,6 @@
 [![Web Dashboard](https://img.shields.io/badge/Web-Dashboard-orange)](https://github.com/SelcukluOsman/IoT-Tea-Tracking-System)
 
 </div>
-
-## 📱 Live Demo Screenshots
 
 ### 📱 Mobile Interface
 <div align="center">
