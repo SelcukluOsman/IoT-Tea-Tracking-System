@@ -62,7 +62,7 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 
 ### 🧠 Mother Modül (ESP8266)
 - **Sabit IP Server**: `http://10.0.0.77` üzerinde web dashboard servisi
-- **Real-time Heartbeat**: 1Hz ile kat modüllerinin durumunu izler
+- **Heartbeat Interval**: 180 saniye (Floor → Mother)
 - **Smart Timer Management**: 20dk demleme → 120dk tazelik otomatik geçişi
 - **Advanced Buzzer System**: Başlangıç ve hazır melodileri (GPIO13)
 - **Live Status LED**: Server durumu için GPIO4 LED yanıp sönme
@@ -277,8 +277,8 @@ Floor ESP32-PICO-D4:
 ### 3. Network Ayarları
 ```cpp
 // Mother modül için (M-ESP8266.ino)
-const char* SSID = "Stoper";
-const char* PASSWORD = "Stoper123.";
+const char* SSID = "YOUR_WIFI_SSID";
+const char* PASSWORD = "YOUR_WIFI_PASSWORD";
 
 // Sabit IP Konfigürasyonu
 IPAddress local_IP(10,0,0,77);       // Ana server IP
@@ -292,8 +292,8 @@ const unsigned long EXPIRE_MS = 120UL * 60UL * 1000UL; // 120 dakika
 const unsigned long HEARTBEAT_TIMEOUT = 100000UL;      // 100 saniye
 
 // Floor modülleri için (F-ESP32-PICO-D4.ino)
-const char* WIFI_SSID = "Stoper";
-const char* WIFI_PASS = "Stoper123.";
+const char* WIFI_SSID = "YOUR_WIFI_SSID";
+const char* WIFI_PASS = "YOUR_WIFI_PASSWORD.";
 const char* MAIN_HOST = "10.0.0.77";
 const uint16_t MAIN_PORT = 80;
 #define FLOOR_ID 3  // Her kat için farklı ID
