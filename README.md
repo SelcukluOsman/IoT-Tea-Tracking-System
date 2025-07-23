@@ -48,7 +48,7 @@
 </td>
 <td align="center">
 <img src="images/web3.png" width="600" alt="Tazelik Takibi"/>
-<br/><b>Tazelik Takib</b>
+<br/><b>Tazelik Takibi</b>
 </td>
 </tr>
 </table>
