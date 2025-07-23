@@ -111,6 +111,76 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 
 ## 🚀 Çalışma Prensibi
 
+### 1. **Başlatma Süreci**
+```mermaid
+sequenceDiagram
+    participant Kullanıcı
+    participant Floor_ESP32
+    participant Mother_ESP8266
+    participant WebUI
+    
+    Kullanıcı->>Floor_ESP32: Buton basma
+    Floor_ESP32->>Mother_ESP8266: HTTP Request (çay demle)
+    Mother_ESP8266->>Mother_ESP8266: Timer başlat (20dk)
+    Mother_ESP8266->>WebUI: Status update
+    Mother_ESP8266->>Mother_ESP8266: Buzzer aktif (bip bip)
+```
+
+### 2. **Durum Yönetimi ve Timer Sistemi**
+```mermaid
+stateDiagram-v2
+    [*] --> Waiting: System Start
+    Waiting --> Preparing: Button Press (/start)
+    Preparing --> Ready: 20min Timer Complete
+    Ready --> Expired: 120min Timer Complete
+    Expired --> Waiting: Auto Reset
+    Preparing --> Expired: Overshoot Protection
+    
+    note right of Preparing : 🔊 Start Jingle (C→E→G)
+    note right of Ready : 🔊 Ready Melody (G→E→C→C8)
+```
+
+**Durum Kodları:**
+- **🔘 waiting**: Sistem bekleme modunda, çay yok
+- **🟠 preparing**: 20 dakika demleme süreci aktif
+- **🟢 ready**: Çay hazır, 120 dakika tazelik takibi  
+- **⚫ expired**: Süre doldu, yeni demleme bekliyor
+
+### 3. **Network İletişimi ve Heartbeat Sistemi**
+```mermaid
+sequenceDiagram
+    participant Floor as Floor ESP32
+    participant Mother as Mother ESP8266
+    participant User as Web User
+    
+    Floor->>Mother: /connect (Boot)
+    Mother-->>Floor: OK
+    
+    loop Every 60s
+        Floor->>Mother: /heartbeat + RSSI
+        Mother-->>Floor: OK
+    end
+    
+    Floor->>Mother: /start (Button Press)
+    Mother->>Mother: Start 20min Timer
+    Mother->>Mother: Play Start Jingle
+    Mother-->>Floor: OK
+    
+    Mother->>Mother: Timer: 20min → Ready State
+    Mother->>Mother: Play Ready Melody
+    
+    User->>Mother: /status (Web Poll)
+    Mother-->>User: JSON Status + Remaining Time
+```
+
+**Heartbeat Monitoring:**
+- **60 saniye aralık**: Floor modüllerden heartbeat sinyali
+- **180 saniye timeout**: Kat modülü offline algılaması  
+- **Connection Quality**: RSSI tabanlı sinyal kalitesi (-90 ila -30 dBm)
+- **Overshoot Protection**: Gecikmiş timer güncellemelerinde süre kaybı önleme
+
+---
+
 
 ## 🎯 Kullanım Senaryoları
 
