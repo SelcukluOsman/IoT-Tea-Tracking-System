@@ -46,8 +46,6 @@
 <img src="images/web2.png" width="300" alt="Demleme Süreci"/>
 <br/><b>Aktif Demleme Durumu</b>
 </td>
-</tr>
-<tr>
 <td align="center">
 <img src="images/web3.png" width="300" alt="Tazelik Takibi"/>
 <br/><b>Farklı Katlar - Farklı Durumlar</b>
@@ -55,8 +53,8 @@
 </tr>
 </table>
 </div>
-
 ---
+
 
 ## 🏗️ Sistem Mimarisi
 
