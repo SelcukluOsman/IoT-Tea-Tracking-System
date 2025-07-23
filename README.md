@@ -52,10 +52,6 @@
 <img src="images/web2.png" width="300" alt="Karma Durum"/>
 <br/><b>Farklı Katlar - Farklı Durumlar</b>
 </td>
-<td align="center">
-<img src="images/web3.png" width="300" alt="Sistem Genel Bakış"/>
-<br/><b>Sistem Genel Bakışı</b>
-</td>
 </tr>
 </table>
 </div>
