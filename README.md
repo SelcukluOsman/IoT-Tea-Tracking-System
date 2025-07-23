@@ -1,7 +1,10 @@
-# 🫖 IoT Tea Tracking System 🫖
-
 <div align="center">
 
+# 🫖 IoT Tea Tracking System
+
+</div>
+
+<div align="center">
 
 **Smart IoT system that monitors tea brewing and freshness times**
 
@@ -10,7 +13,6 @@
 [![Web Dashboard](https://img.shields.io/badge/Web-Dashboard-orange)](https://github.com/SelcukluOsman/IoT-Tea-Tracking-System)
 
 </div>
-
 
 ### 📱 Mobile Interface
 <div align="center">
