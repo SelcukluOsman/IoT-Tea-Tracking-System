@@ -126,27 +126,7 @@ sequenceDiagram
     Mother_ESP8266->>Mother_ESP8266: Buzzer aktif (bip bip)
 ```
 
-### 2. **Durum Yönetimi ve Timer Sistemi**
-```mermaid
-stateDiagram-v2
-    [*] --> Waiting: System Start
-    Waiting --> Preparing: Button Press (/start)
-    Preparing --> Ready: 20min Timer Complete
-    Ready --> Expired: 120min Timer Complete
-    Expired --> Waiting: Auto Reset
-    Preparing --> Expired: Overshoot Protection
-    
-    note right of Preparing : 🔊 Start Jingle (C→E→G)
-    note right of Ready : 🔊 Ready Melody (G→E→C→C8)
-```
-
-**Durum Kodları:**
-- **🔘 waiting**: Sistem bekleme modunda, çay yok
-- **🟠 preparing**: 20 dakika demleme süreci aktif
-- **🟢 ready**: Çay hazır, 120 dakika tazelik takibi  
-- **⚫ expired**: Süre doldu, yeni demleme bekliyor
-
-### 3. **Network İletişimi ve Heartbeat Sistemi**
+### 2. **Network İletişimi ve Heartbeat Sistemi**
 ```mermaid
 sequenceDiagram
     participant Floor as Floor ESP32
