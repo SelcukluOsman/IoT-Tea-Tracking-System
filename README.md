@@ -15,7 +15,6 @@
   - Her katta çay demleme ve tazelik durumunu izler.  
   - Mother’a periyodik olarak veya olay bazlı (demleme başlatıldı/heartbeat.) veri gönderir.
 
-> Sistem 3 katlıdır (F1, F2, F3). Değişkense README’de belirt.
 
 ---
 
