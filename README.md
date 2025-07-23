@@ -10,10 +10,10 @@
 - **Mother (ESP8266)**  
   - Kat modüllerinden gelen verileri toplar.  
   - Zamanlayıcıları ve durum değişimlerini yönetir.  
-  - Ağ üzerinden (Wi‑Fi / MQTT / HTTP …) dış dünyaya veri/servis sağlar.  
+  - Ağ üzerinden veri/servis sağlar.  
 - **Floor (ESP32-PICO-D4)**  
   - Her katta çay demleme ve tazelik durumunu izler.  
-  - Mother’a periyodik olarak veya olay bazlı (demleme başlatıldı/bitti vb.) veri gönderir.
+  - Mother’a periyodik olarak veya olay bazlı (demleme başlatıldı/heartbeat.) veri gönderir.
 
 > Sistem 3 katlıdır (F1, F2, F3). Değişkense README’de belirt.
 
