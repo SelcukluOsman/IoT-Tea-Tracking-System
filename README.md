@@ -109,23 +109,6 @@ Bu proje, **1 adet Mother (ESP8266)** ve **birden fazla Floor (ESP32-PICO-D4)** 
 
 ---
 
-## 📂 Proje Yapısı
-
-```
-IoT-Tea-Tracking-System/
-├── docs/
-│   ├── F-ESP32-PICO-D4.ino    # Floor modül kodu
-│   └── M-ESP8266.ino          # Mother modül kodu
-├── images/
-│   ├── mobile-demo-1.jpg      # Mobil arayüz - Bekleme
-│   ├── mobile-demo-3.jpg      # Mobil arayüz - Demleme
-│   ├── mobile-demo-5.jpg      # Mobil arayüz - Tazelik
-│   ├── web-demo-2.jpg         # Web dashboard - Ana görünüm
-│   ├── web-demo-4.jpg         # Web dashboard - Aktif durum
-│   └── web-demo-6.jpg         # Web dashboard - Karma durum
-└── README.md
-```
-
 ---
 
 ## 🚀 Çalışma Prensibi
