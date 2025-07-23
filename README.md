@@ -197,6 +197,8 @@ Floor ESP32-PICO-D4:
 
 ### 3. Network ve Kat Ayarları
 ```cpp
+// Ana modül için
+
 // ——— Ağ Ayarları ———
 const char* SSID     = "YOUR_WIFI_SSID";
 const char* PASSWORD = "YOUR_WIFI_PASSWORD";
@@ -204,7 +206,16 @@ const char* PASSWORD = "YOUR_WIFI_PASSWORD";
 IPAddress local_IP(10,0,0,77);          
 IPAddress gateway (10,0,0,1);           //IPAddress gateway (192, 168, 1, 1);        // ağ geçidi (router)
 IPAddress subnet  (255, 255, 255, 0);  
-IPAddress dns     (8, 8, 8, 8);        
+IPAddress dns     (8, 8, 8, 8);
+     
+// ——— Web Sunucu ———
+ESP8266WebServer server(80);
+
+// mDNS
+MDNS.begin("tea-system");
+MDNS.addService("http","tcp",80);
+
+------------------------------------------------------------
 
 // Floor modülleri için
 // ----- Kullanıcı Ayarları -----
