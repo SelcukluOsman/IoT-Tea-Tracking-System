@@ -174,7 +174,7 @@ sequenceDiagram
 ```
 
 **Heartbeat Monitoring:**
-- **100 saniye timeout**: Kat modülü offline algılaması
+- **180 saniye timeout**: Kat modülü offline algılaması
 - **Connection Quality**: RSSI tabanlı sinyal kalitesi (-90 ila -30 dBm)
 - **Overshoot Protection**: Gecikmiş timer güncellemelerinde süre kaybı önleme
 
