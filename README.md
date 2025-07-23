@@ -195,18 +195,27 @@ Floor ESP32-PICO-D4:
 # WiFi credentials ve IP ayarlarını yapılandırın
 ```
 
-### 3. Network Ayarları
+### 3. Network ve Kat Ayarları
 ```cpp
-// Mother modül için
-const char* ssid = "YOUR_WIFI_SSID";
-const char* password = "YOUR_WIFI_PASSWORD";
-IPAddress local_IP(10, 0, 0, 77);
+// ——— Ağ Ayarları ———
+const char* SSID     = "YOUR_WIFI_SSID";
+const char* PASSWORD = "YOUR_WIFI_PASSWORD";
+
+IPAddress local_IP(10,0,0,77);          
+IPAddress gateway (10,0,0,1);           //IPAddress gateway (192, 168, 1, 1);        // ağ geçidi (router)
+IPAddress subnet  (255, 255, 255, 0);  
+IPAddress dns     (8, 8, 8, 8);        
 
 // Floor modülleri için
-const char* mother_ip = "10.0.0.77";
-const int mother_port = 80;
-```
+// ----- Kullanıcı Ayarları -----
+const char* WIFI_SSID   = "YOUR_WIFI_SSID";
+const char* WIFI_PASS   = "YOUR_WIFI_PASSWORD";
+const char* MAIN_HOST   = "10.0.0.77";
+const uint16_t MAIN_PORT = 80;
 
+// Kat ID (her kartta değiştir!)
+#define FLOOR_ID 3
+```
 ---
 
 ## 🎨 Arayüz Özellikleri
